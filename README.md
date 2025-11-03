@@ -1,16 +1,18 @@
-# Support Playbook (LLM chat + runbooks + actions) — Native Backend (CSHARP)
+# Support Playbook
 
-This repo provides a **language-native backend** on port **5110**, with minimal **web** and **mobile** clients and a tiny **SDK**.
+**Stack:** Node.js (Express)  
+**API:** http://127.0.0.1:5109  
+**Web:** http://localhost:5509
 
-## Run
-See `api/README.md` for language-specific steps, then:
-- Web: open `web/index.html` via a static server
-- Mobile: `cd mobile && npm install && npm run start` (Android emulator uses `10.0.2.2:5110`)
+## Run (local)
 
-## Endpoints
-Project-specific routes are implemented in the backend (see `api/`). Try typical paths like:
-- `/api/kpis`, `/api/opps`, `/api/notes`
-- `/api/devices`, `/api/heartbeats`
-- `/api/resources`, `/api/availability`, `/api/book`
-- `/api/payments/create`, `/api/webhooks`
-- `/api/ingest`, `/api/dash/summary`
+### API
+cd support-playbook-native/api && npm i && node index.js
+
+### Web (static tester)
+cd support-playbook-native/web && python3 -m http.server 5509
+
+## Test
+- **Ping:** curl -s http://127.0.0.1:5109 | jq .
+- **Playbooks:** GET /api/playbooks\n- **Steps:** GET /api/playbooks/:id/steps\n- **Search:** GET /api/search?q=
+
