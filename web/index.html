@@ -1,11 +1,26 @@
-<!doctype html><meta charset="utf-8"><title>support-playbook-native demo</title>
-<style>body{font-family:system-ui,Arial;margin:24px;max-width:900px}.row{display:flex;gap:8px;margin:8px 0}button{padding:8px 12px}pre{background:#111;color:#0f0;padding:12px;min-height:120px;white-space:pre-wrap}</style>
-<h1>support-playbook-native web tester</h1>
-<div class="row"><label>API base</label><input id="base" size="40" value="http://127.0.0.1:5109"><button onclick="ping()">Ping</button><button onclick="ex()">Run Example</button></div>
-<pre id="out">Click a button…</pre>
+<!doctype html><html><head><meta charset="utf-8"/>
+<title>Support Playbook</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>
+  body{font-family:system-ui;margin:24px;background:#111827;color:#e5e7eb}
+  input{padding:8px;border-radius:8px;border:1px solid #374151;background:#0f172a;color:#e5e7eb;width:360px}
+  button{background:#93c5fd;border:0;border-radius:8px;padding:8px 12px;color:#0b1330;cursor:pointer}
+  .card{background:#0f172a;border:1px solid #374151;border-radius:12px;padding:14px;margin-top:12px}
+  .hit{padding:8px;border-bottom:1px solid #1f2937}
+  pre{background:#0b1220;border:1px solid #1f2937;border-radius:8px;padding:10px;overflow:auto}
+</style></head><body>
+<h1>Support Playbook</h1><div>Node • :5109</div>
+<div class="card">
+  <input id="q" placeholder="Search playbooks…">
+  <button id="go">Search</button>
+</div>
+<div id="hits" class="card"></div>
+<pre id="out">Ready.</pre>
 <script>
-const out=document.getElementById('out');
-function base(){return document.getElementById('base').value}
-async function ping(){try{const r=await fetch(base()); out.textContent=JSON.stringify(await r.json(),null,2);}catch(e){out.textContent=String(e)}}
-async function ex(){out.textContent="Try /api endpoints for this app"}
-</script>
+const BASE="http://127.0.0.1:5109"; const out=document.getElementById('out');
+document.getElementById('go').onclick=async()=>{
+  const hits=await fetch(BASE+"/api/search?q="+encodeURIComponent(q.value||"")).then(r=>r.json()).catch(()=>[]);
+  document.getElementById('hits').innerHTML=hits.map(h=>`<div class="hit"><b>${h.title}</b><br><small>${h.summary||""}</small></div>`).join("");
+  out.textContent=JSON.stringify(hits,null,2);
+};
+</script></body></html>
